@@ -26,7 +26,12 @@ To remove: `claude mcp remove nirvana`.
 
 | Tool | Description |
 |---|---|
-| `get_inbox` | Returns all uncompleted, non-trashed tasks in the Nirvana inbox. |
+| `get_inbox` | Tasks in the Inbox (state=0) — unprocessed items not yet categorized. |
+| `get_next_actions` | Tasks marked Next (state=1) — concrete, actionable next steps. |
+| `get_waiting_for` | Tasks Waiting on someone else (state=2). |
+| `get_scheduled` | Tasks deferred to a future start date (state=3). |
+| `get_someday` | Tasks parked in Someday/Maybe (state=4). |
+| `get_logbook` | Completed tasks (state=7) — currently returns all-time history. |
 
 ## How it works
 
