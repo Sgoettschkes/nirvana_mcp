@@ -111,12 +111,14 @@ Reference Lists and Reference Items both have `state=10` and are distinguished o
 
 ### Tag `type` values
 
-| Value | Meaning |
-|-------|---------|
-| 0     | Tag     |
-| 1     | Area    |
-| 2     | Contact |
-| 3     | Context |
+"Tag" is the umbrella concept — every entry in the `tag` stream is a tag in the broad sense. The `type` field discriminates four sub-kinds:
+
+| Value | Meaning | Status |
+|-------|---------|--------|
+| 0     | Tag (plain label) | ✓ observed |
+| 1     | Area    | ✓ observed |
+| 2     | Contact | ✓ observed |
+| 3     | Context | documented by legacy clients but **never observed** in modern Nirvana data. The UI's Settings → Manage Tags → Contexts → "New Tag" button stores entries as `type=0`. Treat type=3 as defensive code — we map it to `kind: "context"` if it ever appears, but production tools should not rely on it.
 
 ## Conventions
 

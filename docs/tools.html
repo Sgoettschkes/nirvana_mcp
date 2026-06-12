@@ -411,14 +411,17 @@
               <td class="none">none</td>
               <td>
                 <code class="out"
-                  >[{name, kind: "tag"|"context"|"contact", email?,
+                  >[{name, kind: "tag"|"contact"|"context", email?,
                   color?}]</code
                 >
               </td>
               <td class="desc">
-                Plain tags, GTD contexts (e.g. <code class="out">@phone</code
-                >) and contacts (people you're waiting on), distinguished by
-                <code class="out">kind</code>.
+                Plain tags and contacts (people you're waiting on),
+                distinguished by <code class="out">kind</code>. In current
+                Nirvana, GTD contexts are also stored as plain tags; the
+                <code class="out">"context"</code> kind is defensive — it
+                would surface a <code class="out">type=3</code> entry if one
+                existed.
               </td>
             </tr>
             <tr>

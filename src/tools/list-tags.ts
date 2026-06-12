@@ -37,7 +37,7 @@ export function registerListTags(
     {
       title: "List Nirvana Tags",
       description:
-        "Returns the user's labels in Nirvana — plain tags, GTD contexts (e.g. @phone, @home), and contacts (people the user waits on). Each entry has a `kind` field distinguishing them. For high-level life domains, use `list_areas` instead.",
+        "Returns the user's labels in Nirvana — plain tags and contacts (people the user waits on), with a `kind` field distinguishing them. In current Nirvana, GTD-style contexts (e.g. @phone, @home) are also stored as plain tags. For high-level life domains, use `list_areas` instead.",
       inputSchema: {},
     },
     async () => {
