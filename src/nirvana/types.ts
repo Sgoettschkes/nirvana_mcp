@@ -9,12 +9,14 @@ export const TaskState = {
   Logged: 7,
   Deleted: 8,
   Recurring: 9,
+  Reference: 10,
   ActiveProject: 11,
 } as const;
 
 export const TaskType = {
   Task: 0,
   Project: 1,
+  Reference: 3,
 } as const;
 
 export const TagType = {

@@ -211,7 +211,7 @@
           <a href="https://www.npmjs.com/package/@sgoettschkes/nirvana-mcp"
             >@sgoettschkes/nirvana-mcp</a
           >
-          exposes the following 14 tools to Claude Code and any
+          exposes the following 16 tools to Claude Code and any
           MCP-compatible client. All tools are read-only against
           <a href="https://www.nirvanahq.com/">NirvanaHQ</a>.
         </p>
@@ -419,6 +419,18 @@
                 Plain tags, GTD contexts (e.g. <code class="out">@phone</code
                 >) and contacts (people you're waiting on), distinguished by
                 <code class="out">kind</code>.
+              </td>
+            </tr>
+            <tr>
+              <td class="tool-name">list_references</td>
+              <td class="none">none</td>
+              <td>
+                <code class="out">[{id, name, note, tags[]}]</code>
+              </td>
+              <td class="desc">
+                Reference items (<code class="out">type=3, state=10</code>) —
+                non-actionable notes and lookup material the user keeps for
+                later, not tasks to be done.
               </td>
             </tr>
 
