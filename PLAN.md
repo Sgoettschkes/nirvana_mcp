@@ -56,7 +56,8 @@ Verified live on author's machine using the public `npx -y @sgoettschkes/nirvana
 | 5b | `list_later` | state=5 — between Next and Someday (added after audit) | ✅ |
 | 5c | `list_trash` | state=6 — soft-deleted but recoverable | ✅ |
 | 5d | `list_recurring` | state=9 — recurring task templates | ✅ |
-| 5e | `list_references` | type=3 state=10 — non-actionable reference items (added after audit) | ✅ |
+| 5e | `list_reference_lists` | type=3 state=10 — Reference Lists (containers); items are type=2 children | ✅ |
+| 5f | `get_reference_list` | one Reference List + all its items, by id or name (mirrors `get_project`) | ✅ |
 | 6 | `list_focus` | items flagged "focus" (seqt > 0), excluding inactive states | ✅ |
 | 7 | `list_projects` | type=1, state=11 (active projects) | ✅ |
 | 8 | `get_project` | project + child tasks/sub-projects by id or name | ✅ |

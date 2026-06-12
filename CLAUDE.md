@@ -83,7 +83,18 @@ The API returns HTTP 200 even for app-level errors. Always check `response.resul
 
 ### Task fields
 
-`id` (UUID), `type` (0=task, 1=project, 3=reference), `state`, `parentid`, `name`, `note`, `tags` (string in form `,a,b,c,`), `waitingfor`, `completed` (unix ts or 0), `cancelled`, `seq` / `seqp` / `seqt` (ordering; `seqt > 0` = focused), `ps`, `etime` (estimated minutes), `energy`, `startdate` / `duedate` (`YYYYMMDD`), `recurring` (object or null).
+`id` (UUID), `type` (see table below), `state`, `parentid`, `name`, `note`, `tags` (string in form `,a,b,c,`), `waitingfor`, `completed` (unix ts or 0), `cancelled`, `seq` / `seqp` / `seqt` (ordering; `seqt > 0` = focused), `ps`, `etime` (estimated minutes), `energy`, `startdate` / `duedate` (`YYYYMMDD`), `recurring` (object or null).
+
+### Task `type` values
+
+| Value | Meaning | Container? |
+|-------|---------|------------|
+| 0     | Task    | leaf (child of a Project) |
+| 1     | Project | container (holds Tasks) |
+| 2     | Reference Item | leaf (child of a Reference List) |
+| 3     | Reference List | container (holds Reference Items) |
+
+Pattern: containers are odd, leaves are even. Projects and Reference Lists are conceptually parallel structures — each is a top-level container with typed children.
 
 ### Task `state` values
 
@@ -93,10 +104,10 @@ The API returns HTTP 200 even for app-level errors. Always check `response.resul
 | 1     | Next     | 7     | Logged  |
 | 2     | Waiting  | 8     | Deleted |
 | 3     | Scheduled| 9     | Recurring |
-| 4     | Someday  | 10    | Reference |
+| 4     | Someday  | 10    | Reference (used by both list and item) |
 | 5     | Later    | 11    | Active project |
 
-References use both a distinct `type=3` *and* `state=10` — neither field alone uniquely identifies them. `type=2` has not been observed; it may correspond to Reference Lists (containers), which we have not yet seen in user data.
+Reference Lists and Reference Items both have `state=10` and are distinguished only by `type` (3 vs 2).
 
 ### Tag `type` values
 

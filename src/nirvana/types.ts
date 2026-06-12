@@ -16,7 +16,8 @@ export const TaskState = {
 export const TaskType = {
   Task: 0,
   Project: 1,
-  Reference: 3,
+  ReferenceItem: 2,
+  ReferenceList: 3,
 } as const;
 
 export const TagType = {

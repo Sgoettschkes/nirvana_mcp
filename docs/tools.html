@@ -211,7 +211,7 @@
           <a href="https://www.npmjs.com/package/@sgoettschkes/nirvana-mcp"
             >@sgoettschkes/nirvana-mcp</a
           >
-          exposes the following 16 tools to Claude Code and any
+          exposes the following 17 tools to Claude Code and any
           MCP-compatible client. All tools are read-only against
           <a href="https://www.nirvanahq.com/">NirvanaHQ</a>.
         </p>
@@ -422,15 +422,34 @@
               </td>
             </tr>
             <tr>
-              <td class="tool-name">list_references</td>
+              <td class="tool-name">list_reference_lists</td>
               <td class="none">none</td>
               <td>
                 <code class="out">[{id, name, note, tags[]}]</code>
               </td>
               <td class="desc">
-                Reference items (<code class="out">type=3, state=10</code>) —
-                non-actionable notes and lookup material the user keeps for
-                later, not tasks to be done.
+                Reference Lists (<code class="out">type=3, state=10</code>) —
+                top-level containers for non-actionable notes and lookup
+                material.
+              </td>
+            </tr>
+            <tr>
+              <td class="tool-name">get_reference_list</td>
+              <td>
+                <span class="arg">id?: string</span>
+                <span class="arg">name?: string</span>
+                <span class="arg-note">Exactly one required.</span>
+              </td>
+              <td>
+                <code class="out"
+                  >{ reference_list: {...}, items: [{id, name, note,
+                  tags[]}] }</code
+                >
+              </td>
+              <td class="desc">
+                A single Reference List plus all of its child items
+                (<code class="out">type=2, state=10</code>). Mirrors
+                <code class="out">get_project</code>.
               </td>
             </tr>
 

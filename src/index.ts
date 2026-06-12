@@ -19,7 +19,8 @@ import { registerListProjects } from "./tools/list-projects.js";
 import { registerGetProject } from "./tools/get-project.js";
 import { registerListAreas } from "./tools/list-areas.js";
 import { registerListTags } from "./tools/list-tags.js";
-import { registerListReferences } from "./tools/list-references.js";
+import { registerListReferenceLists } from "./tools/list-reference-lists.js";
+import { registerGetReferenceList } from "./tools/get-reference-list.js";
 import { registerSearchTasks } from "./tools/search-tasks.js";
 import { runLogin } from "./login-command.js";
 
@@ -76,7 +77,8 @@ async function runServer(): Promise<void> {
   registerGetProject(server, client);
   registerListAreas(server, client);
   registerListTags(server, client);
-  registerListReferences(server, client);
+  registerListReferenceLists(server, client);
+  registerGetReferenceList(server, client);
   registerSearchTasks(server, client);
 
   const transport = new StdioServerTransport();

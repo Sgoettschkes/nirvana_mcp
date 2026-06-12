@@ -3,17 +3,17 @@ import { NirvanaClient } from "../nirvana/client.js";
 import { TaskState, TaskType } from "../nirvana/types.js";
 import { registerTaskListTool } from "./state-filter.js";
 
-export function registerListReferences(
+export function registerListReferenceLists(
   server: McpServer,
   client: NirvanaClient,
 ): void {
   registerTaskListTool(server, client, {
-    name: "list_references",
-    title: "List Nirvana References",
+    name: "list_reference_lists",
+    title: "List Nirvana Reference Lists",
     description:
-      "Returns the user's Reference items in Nirvana (type=3, state=10) — non-actionable notes / information / lookup material the user wants to keep around but isn't a task to be done.",
+      "Returns the user's Reference Lists in Nirvana (type=3, state=10) — top-level containers for non-actionable notes / information / lookup material. Each list groups related reference items. Use `get_reference_list` to see the items inside one.",
     filter: (t) =>
-      Number(t.type) === TaskType.Reference &&
+      Number(t.type) === TaskType.ReferenceList &&
       Number(t.state) === TaskState.Reference,
   });
 }

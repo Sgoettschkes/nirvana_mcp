@@ -40,7 +40,8 @@ To remove: `claude mcp remove nirvana`.
 | `get_project` | One project plus its direct children (tasks and sub-projects). Identify by `id` or `name`. |
 | `list_areas` | High-level life domains (e.g. "work", "personal"). |
 | `list_tags` | Plain tags + GTD contexts + contacts. Each entry has a `kind` field. |
-| `list_references` | Reference items (`type=3`, `state=10`) — non-actionable notes the user keeps for lookup. |
+| `list_reference_lists` | Reference Lists (`type=3`, `state=10`) — top-level containers for non-actionable notes / lookup material. |
+| `get_reference_list` | One Reference List plus all its items. Identify by `id` or `name`. |
 | `search_tasks` | Filter tasks by `text` (name+note substring), `tag`, `area`, and/or `state`. At least one filter required. |
 
 ## How it works
