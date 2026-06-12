@@ -6,6 +6,8 @@ MCP server that exposes [NirvanaHQ](https://www.nirvanahq.com/) — the GTD task
 
 ## Install into Claude Code
 
+**Prerequisites:** Node.js 20 or newer (ships with `npx`) and the [Claude Code CLI](https://docs.anthropic.com/en/docs/claude-code). Nothing needs to be cloned or globally installed — `npx -y` downloads the package on demand.
+
 ```bash
 # 1. Get a Nirvana auth token. Prompts for username + password.
 npx -y @sgoettschkes/nirvana-mcp login
