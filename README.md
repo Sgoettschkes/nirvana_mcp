@@ -55,6 +55,8 @@ npm run dev                 # runs the server against your account
 npm run inspect             # opens MCP Inspector
 ```
 
+When verifying the published install from *inside* this repo, the `package.json` name collides with the npm package, and `npx -y @sgoettschkes/nirvana-mcp …` will fail with `command not found`. Run from a different directory (`cd ~ && npx …`) or use the explicit form: `npx -y --package=@sgoettschkes/nirvana-mcp nirvana-mcp …`.
+
 ## License
 
 MIT
