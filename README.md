@@ -33,6 +33,7 @@ To remove: `claude mcp remove nirvana`.
 | `get_someday` | Tasks parked in Someday/Maybe (state=4). |
 | `get_logbook` | Completed tasks (state=7) — currently returns all-time history. |
 | `get_focus` | Tasks flagged for Focus (`seqt > 0`), excluding completed/trashed items. |
+| `list_projects` | Active projects (`type=1`, `state=11`). |
 
 ## How it works
 
