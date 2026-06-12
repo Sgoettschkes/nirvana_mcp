@@ -27,13 +27,12 @@ src/
 
 The published `nirvana-mcp` binary has two modes:
 - `nirvana-mcp` — start MCP server on stdio (used by Claude Code via `claude mcp add`).
-- `nirvana-mcp login` — prompt for username + password, POST `auth.new`, print the token to stdout. Non-interactive: reads `NIRVANA_USERNAME` / `NIRVANA_PASSWORD` env vars.
+- `nirvana-mcp login` — prompt for username + password (TTY required), POST `auth.new`, print the token to stdout.
 
 ## Env vars
 
 - `NIRVANA_AUTH_TOKEN` — required by the server.
 - `NIRVANA_APP_ID` — optional, defaults to `"nirvana-mcp"`. Just an identifier; not registered with Nirvana.
-- `NIRVANA_USERNAME` / `NIRVANA_PASSWORD` — only consumed by `login` for non-interactive flows.
 
 ## Nirvana API reference
 

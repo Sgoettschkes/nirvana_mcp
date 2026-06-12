@@ -63,31 +63,14 @@ function promptHidden(question: string): Promise<string> {
 }
 
 export async function runLogin(): Promise<void> {
+  if (stdin.isTTY !== true) {
+    stderr.write("Login requires an interactive terminal.\n");
+    exit(1);
+  }
+
   const appId = process.env.NIRVANA_APP_ID ?? "nirvana-mcp";
-
-  let username = process.env.NIRVANA_USERNAME;
-  let password = process.env.NIRVANA_PASSWORD;
-  const interactive = stdin.isTTY === true;
-
-  if (!username) {
-    if (!interactive) {
-      stderr.write(
-        "Missing username. Either run in a terminal or set NIRVANA_USERNAME.\n",
-      );
-      exit(1);
-    }
-    username = await promptVisible("Nirvana username: ");
-  }
-
-  if (!password) {
-    if (!interactive) {
-      stderr.write(
-        "Missing password. Either run in a terminal or set NIRVANA_PASSWORD.\n",
-      );
-      exit(1);
-    }
-    password = await promptHidden("Nirvana password: ");
-  }
+  const username = await promptVisible("Nirvana username: ");
+  const password = await promptHidden("Nirvana password: ");
 
   if (!username || !password) {
     stderr.write("Username and password are required.\n");
