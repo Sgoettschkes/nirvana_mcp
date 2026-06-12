@@ -24,31 +24,17 @@ Goal: a stranger can install and use this server in Claude Code with three comma
 
 `src/index.ts` is now a dispatcher: bare invocation starts the server, `login` runs the interactive auth flow, `--help` prints usage. Hidden-password prompt uses raw mode; falls back to `NIRVANA_USERNAME` / `NIRVANA_PASSWORD` env vars when stdin isn't a TTY. `NIRVANA_APP_ID` defaults to `"nirvana-mcp"` so the only required env var for end users is `NIRVANA_AUTH_TOKEN`.
 
-### 2b — npm publish
+### 2b — npm publish (pending user action)
 
-- `npm login` against npmjs as `sgoettschkes` (scoped package needs the matching org/user).
-- Verify `npm pack --dry-run` ships only `dist/`, `README.md`, `package.json`.
-- `npm publish --access public` for the first release.
-- GitHub Actions workflow: on `v*` tag push, run `npm ci && npm run build && npm publish` using an `NPM_TOKEN` secret.
+Prep is done; the actual publish needs the maintainer's npm credentials:
 
-### 2c — README with Claude Code install
+- `npm pack --dry-run` shows 7.1KB tarball with only `dist/`, `README.md`, `package.json`. ✅
+- `.github/workflows/publish.yml` runs `npm publish --provenance --access public` on `v*` tag push using an `NPM_TOKEN` secret. ✅
+- **TODO (maintainer):** `npm login` as `sgoettschkes`, run `npm publish --access public` for the first manual release, then add `NPM_TOKEN` to GitHub repo secrets so future releases ship via `git tag v0.0.x && git push --tags`.
 
-Three commands the user copy-pastes:
+### 2c — README with Claude Code install ✅
 
-```bash
-# 1. Get a token (interactive prompt for credentials)
-npx -y @sgoettschkes/nirvana-mcp login
-
-# 2. Install into Claude Code (paste token from step 1)
-claude mcp add nirvana \
-  --env NIRVANA_APP_ID=nirvana-mcp \
-  --env NIRVANA_AUTH_TOKEN=<token-from-step-1> \
-  -- npx -y @sgoettschkes/nirvana-mcp
-
-# 3. Restart Claude Code, then ask: "What's in my Nirvana inbox?"
-```
-
-README also covers: what the tool does, the read-tool list, how to uninstall (`claude mcp remove nirvana`), and a troubleshooting section (error 98 means bad credentials, etc.).
+`README.md` covers: three-command install (`login` → `claude mcp add` → restart), current tool list, how it works, troubleshooting (error 98 etc.), and dev setup. Targets Claude Code only per Phase-2 decisions.
 
 ## Phase 3 — Local verification (DoD for shipping)
 
