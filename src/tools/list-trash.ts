@@ -11,7 +11,7 @@ export function registerListTrash(
     name: "list_trash",
     title: "List Nirvana Trash",
     description:
-      "Returns tasks the user has thrown into Trash (state=6). These are soft-deleted but recoverable — useful for finding something the user trashed but might want back.",
+      "Returns items the user has thrown into Trash (state=6) — soft-deleted tasks and projects, still recoverable. Each item carries a `type` field (\"task\" or \"project\").",
     state: TaskState.Trashed,
   });
 }

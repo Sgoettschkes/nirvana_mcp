@@ -11,7 +11,7 @@ export function registerListInbox(
     name: "list_inbox",
     title: "List Nirvana Inbox",
     description:
-      "Returns tasks in the Nirvana Inbox (state=0) — unprocessed items the user hasn't categorized yet.",
+      "Returns items in the Nirvana Inbox (state=0) — unprocessed tasks and projects the user hasn't categorized yet. Each item carries a `type` field (\"task\" or \"project\").",
     state: TaskState.Inbox,
   });
 }

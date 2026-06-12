@@ -11,7 +11,7 @@ export function registerListLogbook(
     name: "list_logbook",
     title: "List Nirvana Logbook",
     description:
-      "Returns completed tasks logged in Nirvana (state=7). Use this to review what the user finished.",
+      "Returns completed items logged in Nirvana (state=7) — both tasks and projects the user has finished. Each item carries a `type` field (\"task\" or \"project\").",
     state: TaskState.Logged,
   });
 }

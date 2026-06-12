@@ -1,12 +1,18 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { NirvanaClient } from "../nirvana/client.js";
-import { TaskType, parseTagString, type NirvanaTask } from "../nirvana/types.js";
+import {
+  TaskType,
+  parseTagString,
+  typeName,
+  type NirvanaTask,
+} from "../nirvana/types.js";
 
 interface TaskListItem {
   id: string;
   name: string;
   note: string;
   tags: string[];
+  type: string;
 }
 
 function toItem(task: NirvanaTask): TaskListItem {
@@ -15,8 +21,14 @@ function toItem(task: NirvanaTask): TaskListItem {
     name: task.name,
     note: task.note,
     tags: parseTagString(task.tags ?? ""),
+    type: typeName(Number(task.type)),
   };
 }
+
+const TASK_OR_PROJECT: ReadonlySet<number> = new Set([
+  TaskType.Task,
+  TaskType.Project,
+]);
 
 export interface TaskListToolConfig {
   name: string;
@@ -74,6 +86,7 @@ export function registerStateFilteredTool(
     title: config.title,
     description: config.description,
     filter: (t) =>
-      Number(t.type) === TaskType.Task && Number(t.state) === config.state,
+      TASK_OR_PROJECT.has(Number(t.type)) &&
+      Number(t.state) === config.state,
   });
 }

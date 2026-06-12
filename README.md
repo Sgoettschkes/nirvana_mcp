@@ -2,7 +2,7 @@
 
 MCP server that exposes [NirvanaHQ](https://www.nirvanahq.com/) — the GTD task manager — to Claude Code and other MCP-compatible clients.
 
-> Status: 15 read-only tools shipped (see [docs/tools.html](./docs/tools.html) for the full reference). Writes are next. See [PLAN.md](./PLAN.md) for the roadmap.
+> Status: 17 read-only tools shipped (see [docs/tools.html](./docs/tools.html) for the full reference). Writes are next. See [PLAN.md](./PLAN.md) for the roadmap.
 
 ## Install into Claude Code
 
@@ -66,9 +66,14 @@ git clone https://github.com/Sgoettschkes/nirvana_mcp
 cd nirvana_mcp
 asdf install                # installs the pinned Node version
 npm install
-cp .env.example .env        # then fill in NIRVANA_AUTH_TOKEN
+cp .env.example .env        # creates .env with an empty NIRVANA_AUTH_TOKEN
+
+npm run login               # prompts for username + password,
+                            # prints an auth token. Paste it as
+                            # NIRVANA_AUTH_TOKEN in .env.
+
 npm run dev                 # runs the server against your account
-npm run inspect             # opens MCP Inspector
+npm run inspect             # builds, then opens MCP Inspector
 ```
 
 When verifying the published install from *inside* this repo, the `package.json` name collides with the npm package, and `npx -y @sgoettschkes/nirvana-mcp …` will fail with `command not found`. Run from a different directory (`cd ~ && npx …`) or use the explicit form: `npx -y --package=@sgoettschkes/nirvana-mcp nirvana-mcp …`.

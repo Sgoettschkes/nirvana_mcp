@@ -2,27 +2,12 @@ import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { NirvanaClient } from "../nirvana/client.js";
 import {
-  TaskState,
   TaskType,
   parseTagString,
+  stateName,
+  typeName,
   type NirvanaTask,
 } from "../nirvana/types.js";
-
-const STATE_NAMES: Record<number, string> = {
-  [TaskState.Inbox]: "inbox",
-  [TaskState.Next]: "next",
-  [TaskState.Waiting]: "waiting",
-  [TaskState.Scheduled]: "scheduled",
-  [TaskState.Someday]: "someday",
-  [TaskState.Later]: "later",
-  [TaskState.Trashed]: "trashed",
-  [TaskState.Logged]: "logged",
-  [TaskState.Deleted]: "deleted",
-  [TaskState.Recurring]: "recurring",
-  [TaskState.ActiveProject]: "active_project",
-};
-
-const stateName = (s: number): string => STATE_NAMES[s] ?? `unknown(${s})`;
 
 function errorResult(message: string) {
   return {
@@ -80,7 +65,7 @@ export function registerGetProject(
           name: t.name,
           note: t.note,
           tags: parseTagString(t.tags ?? ""),
-          type: Number(t.type) === TaskType.Project ? "project" : "task",
+          type: typeName(Number(t.type)),
           state: stateName(Number(t.state)),
           completed: Number(t.completed) > 0,
         }));

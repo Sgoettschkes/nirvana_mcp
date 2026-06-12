@@ -5,6 +5,7 @@ import {
   TaskState,
   TaskType,
   parseTagString,
+  stateName,
   type NirvanaTask,
 } from "../nirvana/types.js";
 
@@ -31,10 +32,6 @@ const STATE_NAME_TO_NUMBER: Record<(typeof STATE_ENUM)[number], number> = {
   recurring: TaskState.Recurring,
   active_project: TaskState.ActiveProject,
 };
-
-const NUMBER_TO_STATE_NAME: Record<number, string> = Object.fromEntries(
-  Object.entries(STATE_NAME_TO_NUMBER).map(([k, v]) => [v, k]),
-);
 
 function errorResult(message: string) {
   return {
@@ -139,7 +136,7 @@ export function registerSearchTasks(
         name: t.name,
         note: t.note,
         tags: parseTagString(t.tags ?? ""),
-        state: NUMBER_TO_STATE_NAME[Number(t.state)] ?? `unknown(${t.state})`,
+        state: stateName(Number(t.state)),
         completed: Number(t.completed) > 0,
       }));
 

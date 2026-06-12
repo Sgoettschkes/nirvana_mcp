@@ -82,3 +82,33 @@ export interface LoginResponse {
 export function parseTagString(tags: string): string[] {
   return tags.split(",").filter((t) => t.length > 0);
 }
+
+const TYPE_NAMES: Record<number, string> = {
+  [TaskType.Task]: "task",
+  [TaskType.Project]: "project",
+  [TaskType.ReferenceItem]: "reference_item",
+  [TaskType.ReferenceList]: "reference_list",
+};
+
+export function typeName(n: number): string {
+  return TYPE_NAMES[n] ?? `unknown(${n})`;
+}
+
+const STATE_NAMES: Record<number, string> = {
+  [TaskState.Inbox]: "inbox",
+  [TaskState.Next]: "next",
+  [TaskState.Waiting]: "waiting",
+  [TaskState.Scheduled]: "scheduled",
+  [TaskState.Someday]: "someday",
+  [TaskState.Later]: "later",
+  [TaskState.Trashed]: "trashed",
+  [TaskState.Logged]: "logged",
+  [TaskState.Deleted]: "deleted",
+  [TaskState.Recurring]: "recurring",
+  [TaskState.Reference]: "reference",
+  [TaskState.ActiveProject]: "active_project",
+};
+
+export function stateName(n: number): string {
+  return STATE_NAMES[n] ?? `unknown(${n})`;
+}

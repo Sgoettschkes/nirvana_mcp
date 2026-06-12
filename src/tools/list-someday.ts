@@ -11,7 +11,7 @@ export function registerListSomeday(
     name: "list_someday",
     title: "List Nirvana Someday/Maybe",
     description:
-      "Returns tasks parked in Nirvana's Someday list (state=4) — things to revisit later but not actionable now.",
+      "Returns items parked in Nirvana's Someday list (state=4) — tasks and projects to revisit later but not actionable now. Each item carries a `type` field (\"task\" or \"project\").",
     state: TaskState.Someday,
   });
 }
