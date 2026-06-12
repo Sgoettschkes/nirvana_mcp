@@ -16,12 +16,25 @@ MCP server exposing NirvanaHQ (GTD task manager) to Claude.
 
 ```
 src/
-  index.ts          # MCP server bootstrap
+  index.ts          # CLI dispatcher: server | login | help
+  login-command.ts  # interactive auth.new flow for end users
   nirvana/
     client.ts       # auth + HTTP wrapper around api.nirvanahq.com
     types.ts        # Task, Project, Tag, Area
   tools/            # one file per MCP tool
 ```
+
+## CLI
+
+The published `nirvana-mcp` binary has two modes:
+- `nirvana-mcp` — start MCP server on stdio (used by Claude Code via `claude mcp add`).
+- `nirvana-mcp login` — prompt for username + password, POST `auth.new`, print the token to stdout. Non-interactive: reads `NIRVANA_USERNAME` / `NIRVANA_PASSWORD` env vars.
+
+## Env vars
+
+- `NIRVANA_AUTH_TOKEN` — required by the server.
+- `NIRVANA_APP_ID` — optional, defaults to `"nirvana-mcp"`. Just an identifier; not registered with Nirvana.
+- `NIRVANA_USERNAME` / `NIRVANA_PASSWORD` — only consumed by `login` for non-interactive flows.
 
 ## Nirvana API reference
 
@@ -98,5 +111,5 @@ The API returns HTTP 200 even for app-level errors. Always check `response.resul
 
 - Read-only tools ship before write tools (see PLAN.md priority tables).
 - Destructive writes (`delete_task`, `purge_task`) require explicit confirmation in the tool description so the model gates them.
-- Secrets only via env vars: `NIRVANA_APP_ID`, `NIRVANA_AUTH_TOKEN`. Never hard-code; never log.
+- Secrets only via env vars (see above). Never hard-code; never log the token.
 - Validate every tool with `npx @modelcontextprotocol/inspector node dist/index.js` before declaring it done.

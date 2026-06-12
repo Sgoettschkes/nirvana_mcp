@@ -20,15 +20,9 @@ Built:
 
 Goal: a stranger can install and use this server in Claude Code with three commands.
 
-### 2a — Login subcommand in the published binary
+### 2a — Login subcommand in the published binary ✅
 
-The `nirvana-mcp` bin becomes a dispatcher:
-- `nirvana-mcp` (no args) → MCP server mode (current behavior).
-- `nirvana-mcp login` → interactive flow: prompts for username + password (hidden via raw stdin), POSTs `auth.new` with MD5-hashed password, prints the token. Also accepts `NIRVANA_USERNAME` / `NIRVANA_PASSWORD` env vars for non-interactive use.
-
-Result: end users never clone the repo. They run `npx -y @sgoettschkes/nirvana-mcp login`, copy the token, drop it into the `claude mcp add` command in step 2c.
-
-Implementation: small argv check at the top of `src/index.ts` before constructing the server. Keep `scripts/login.ts` as the dev shortcut against local source.
+`src/index.ts` is now a dispatcher: bare invocation starts the server, `login` runs the interactive auth flow, `--help` prints usage. Hidden-password prompt uses raw mode; falls back to `NIRVANA_USERNAME` / `NIRVANA_PASSWORD` env vars when stdin isn't a TTY. `NIRVANA_APP_ID` defaults to `"nirvana-mcp"` so the only required env var for end users is `NIRVANA_AUTH_TOKEN`.
 
 ### 2b — npm publish
 

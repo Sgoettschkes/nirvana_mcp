@@ -19,7 +19,7 @@
   "scripts": {
     "build": "tsc && chmod +x dist/index.js",
     "dev": "tsx --env-file=.env src/index.ts",
-    "login": "tsx --env-file=.env scripts/login.ts",
+    "login": "tsx --env-file=.env src/index.ts login",
     "inspect": "npm run build && npx @modelcontextprotocol/inspector node dist/index.js",
     "prepublishOnly": "npm run build"
   },
