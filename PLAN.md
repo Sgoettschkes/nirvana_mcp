@@ -6,47 +6,62 @@ Stack, API reference, and conventions live in [CLAUDE.md](./CLAUDE.md). This fil
 
 Done in commit `02d413f`. Minimal working MCP server bootstrap over stdio (`initialize` handshake verified). Stack/layout decisions live in [CLAUDE.md](./CLAUDE.md).
 
-## Phase 1 — MVP: `get_inbox`
+## Phase 1 — MVP: `get_inbox` ✅
 
-API shape verified against [meeech/nirv](https://github.com/meeech/nirv) and [mikesimons/nibbana](https://github.com/mikesimons/nibbana) — full reference in [CLAUDE.md](./CLAUDE.md#nirvana-api-reference). No need to sniff browser traffic.
+Done in commits `f2823b9` (impl) and `60a2434` (MD5 fix). Live `get_inbox` returns real inbox items from author's account.
 
-1. `src/nirvana/types.ts` — `NirvanaTask`, `NirvanaTag`, `EverythingResponse`, state/type enums.
-2. `src/nirvana/client.ts` — `NirvanaClient`:
-   - `static login(appId, username, password)` → returns auth token (one-time helper).
-   - `everything(since = 0)` → returns full snapshot, surfaces `results[0].error` as a thrown error.
-3. `scripts/login.ts` — small CLI that prompts/accepts username+password, prints a token to paste into `.env`.
-4. `src/tools/get-inbox.ts` — registers `get_inbox`:
-   - No inputs.
-   - Filters `everything()` results: `type === 0`, `state === 0`, `completed === 0`.
-   - Output: `{ id, name, note, tags: string[], created_at? }[]`.
-5. `src/index.ts` — read `NIRVANA_APP_ID` + `NIRVANA_AUTH_TOKEN` env vars, fail fast if missing, construct client, register tool.
-6. Verify with `npm run inspect` and against live account.
+Built:
+- `src/nirvana/{types,client}.ts` — typed `NirvanaClient` with `login` (MD5-hashed password) and `everything`. Surfaces `results[0].error` as `NirvanaApiError`.
+- `src/tools/get-inbox.ts` — filters `type=0`/`state=0`/`completed=0`.
+- `src/index.ts` — wires env vars → client → tool registration.
+- `scripts/login.ts` — dev-only login helper.
 
-## Phase 2 — Distribution
+## Phase 2 — Distribution (current)
 
-1. Publish to npm as `@sgoettschkes/nirvana-mcp` with `bin` field.
-2. README usage block for Claude Desktop `claude_desktop_config.json`:
-   ```json
-   {
-     "mcpServers": {
-       "nirvana": {
-         "command": "npx",
-         "args": ["-y", "@sgoettschkes/nirvana-mcp"],
-         "env": {
-           "NIRVANA_APP_ID": "...",
-           "NIRVANA_AUTH_TOKEN": "..."
-         }
-       }
-     }
-   }
-   ```
-3. GitHub Actions: on tag push → `npm publish`.
+Goal: a stranger can install and use this server in Claude Code with three commands.
 
-## Phase 3 — Local Test (Definition of Done for MVP)
+### 2a — Login subcommand in the published binary
 
-- Add the server to Claude Code's MCP config on this machine.
-- Ask Claude: *"What's in my Nirvana inbox?"* — confirm correct items return.
-- Edge cases verified: empty inbox, items with notes, items with tags, expired token error path.
+The `nirvana-mcp` bin becomes a dispatcher:
+- `nirvana-mcp` (no args) → MCP server mode (current behavior).
+- `nirvana-mcp login` → interactive flow: prompts for username + password (hidden via raw stdin), POSTs `auth.new` with MD5-hashed password, prints the token. Also accepts `NIRVANA_USERNAME` / `NIRVANA_PASSWORD` env vars for non-interactive use.
+
+Result: end users never clone the repo. They run `npx -y @sgoettschkes/nirvana-mcp login`, copy the token, drop it into the `claude mcp add` command in step 2c.
+
+Implementation: small argv check at the top of `src/index.ts` before constructing the server. Keep `scripts/login.ts` as the dev shortcut against local source.
+
+### 2b — npm publish
+
+- `npm login` against npmjs as `sgoettschkes` (scoped package needs the matching org/user).
+- Verify `npm pack --dry-run` ships only `dist/`, `README.md`, `package.json`.
+- `npm publish --access public` for the first release.
+- GitHub Actions workflow: on `v*` tag push, run `npm ci && npm run build && npm publish` using an `NPM_TOKEN` secret.
+
+### 2c — README with Claude Code install
+
+Three commands the user copy-pastes:
+
+```bash
+# 1. Get a token (interactive prompt for credentials)
+npx -y @sgoettschkes/nirvana-mcp login
+
+# 2. Install into Claude Code (paste token from step 1)
+claude mcp add nirvana \
+  --env NIRVANA_APP_ID=nirvana-mcp \
+  --env NIRVANA_AUTH_TOKEN=<token-from-step-1> \
+  -- npx -y @sgoettschkes/nirvana-mcp
+
+# 3. Restart Claude Code, then ask: "What's in my Nirvana inbox?"
+```
+
+README also covers: what the tool does, the read-tool list, how to uninstall (`claude mcp remove nirvana`), and a troubleshooting section (error 98 means bad credentials, etc.).
+
+## Phase 3 — Local verification (DoD for shipping)
+
+- Run `claude mcp add` on this machine pointing at the locally-built binary first (not published).
+- Confirm Claude Code lists `nirvana` and `get_inbox` is callable.
+- Ask Claude: *"What's in my Nirvana inbox?"* — get back the real list.
+- Publish a `0.0.1` tag, then re-install via the public `npx ... ` flow and repeat the test against the published package.
 
 ---
 
