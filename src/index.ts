@@ -8,8 +8,6 @@ import { NirvanaClient } from "./nirvana/client.js";
 import { registerGetInbox } from "./tools/get-inbox.js";
 import { runLogin } from "./login-command.js";
 
-const DEFAULT_APP_ID = "nirvana-mcp";
-
 const pkgPath = join(dirname(fileURLToPath(import.meta.url)), "..", "package.json");
 const VERSION = (JSON.parse(readFileSync(pkgPath, "utf8")) as { version: string }).version;
 
@@ -40,10 +38,9 @@ function requireEnv(name: string): string {
 }
 
 async function runServer(): Promise<void> {
-  const appId = process.env.NIRVANA_APP_ID ?? DEFAULT_APP_ID;
   const authToken = requireEnv("NIRVANA_AUTH_TOKEN");
 
-  const client = new NirvanaClient({ appId, authToken });
+  const client = new NirvanaClient(authToken);
 
   const server = new McpServer({
     name: "nirvana-mcp",

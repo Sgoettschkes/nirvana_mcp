@@ -31,8 +31,7 @@ The published `nirvana-mcp` binary has two modes:
 
 ## Env vars
 
-- `NIRVANA_AUTH_TOKEN` — required by the server.
-- `NIRVANA_APP_ID` — optional, defaults to `"nirvana-mcp"`. Just an identifier; not registered with Nirvana.
+- `NIRVANA_AUTH_TOKEN` — required by the server. That's it — no other config knobs.
 
 ## Nirvana API reference
 

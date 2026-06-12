@@ -5,12 +5,8 @@ import type {
 } from "./types.js";
 
 const BASE_URL = "https://api.nirvanahq.com/";
+const APP_ID = "nirvana-mcp";
 const APP_VERSION = "1";
-
-export interface NirvanaClientOptions {
-  appId: string;
-  authToken: string;
-}
 
 export class NirvanaApiError extends Error {
   constructor(
@@ -22,30 +18,26 @@ export class NirvanaApiError extends Error {
   }
 }
 
-function commonParams(appId: string, authToken: string): URLSearchParams {
+function commonParams(authToken: string): URLSearchParams {
   return new URLSearchParams({
     api: "rest",
     requestid: randomUUID(),
     clienttime: Math.floor(Date.now() / 1000).toString(),
-    appid: appId,
+    appid: APP_ID,
     appversion: APP_VERSION,
     authtoken: authToken,
   });
 }
 
 export class NirvanaClient {
-  constructor(private readonly options: NirvanaClientOptions) {}
+  constructor(private readonly authToken: string) {}
 
-  static async login(
-    appId: string,
-    username: string,
-    password: string,
-  ): Promise<string> {
+  static async login(username: string, password: string): Promise<string> {
     const params = new URLSearchParams({
       api: "rest",
       requestid: randomUUID(),
       clienttime: Math.floor(Date.now() / 1000).toString(),
-      appid: appId,
+      appid: APP_ID,
       appversion: APP_VERSION,
     });
     const passwordHash = createHash("md5").update(password).digest("hex");
@@ -78,7 +70,7 @@ export class NirvanaClient {
   }
 
   async everything(since = 0): Promise<EverythingResponse> {
-    const params = commonParams(this.options.appId, this.options.authToken);
+    const params = commonParams(this.authToken);
     params.set("method", "everything");
     params.set("since", since.toString());
 

@@ -68,7 +68,6 @@ export async function runLogin(): Promise<void> {
     exit(1);
   }
 
-  const appId = process.env.NIRVANA_APP_ID ?? "nirvana-mcp";
   const username = await promptVisible("Nirvana username: ");
   const password = await promptHidden("Nirvana password: ");
 
@@ -79,7 +78,7 @@ export async function runLogin(): Promise<void> {
 
   let token: string;
   try {
-    token = await NirvanaClient.login(appId, username, password);
+    token = await NirvanaClient.login(username, password);
   } catch (err) {
     if (err instanceof NirvanaApiError) {
       stderr.write(`${err.message}\n`);

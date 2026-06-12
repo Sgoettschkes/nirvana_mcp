@@ -23,7 +23,7 @@ Goal: a stranger can install and use this server in Claude Code with three comma
 
 ### 2a — Login subcommand in the published binary ✅
 
-`src/index.ts` is now a dispatcher: bare invocation starts the server, `login` runs the interactive auth flow, `--help` prints usage. Hidden-password prompt uses raw mode; falls back to `NIRVANA_USERNAME` / `NIRVANA_PASSWORD` env vars when stdin isn't a TTY. `NIRVANA_APP_ID` defaults to `"nirvana-mcp"` so the only required env var for end users is `NIRVANA_AUTH_TOKEN`.
+`src/index.ts` is now a dispatcher: bare invocation starts the server, `login` runs the interactive auth flow (TTY-only), `--help` prints usage. Hidden-password prompt uses raw mode. Only env var end users set is `NIRVANA_AUTH_TOKEN`.
 
 ### 2b — npm publish ✅
 
