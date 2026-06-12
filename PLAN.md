@@ -53,7 +53,7 @@ Verified live on author's machine using the public `npx -y @sgoettschkes/nirvana
 | 3 | `get_waiting_for` | state=2 | ✅ |
 | 4 | `get_scheduled` | state=3 | ✅ |
 | 5 | `get_someday` | state=4 | ✅ |
-| 6 | `get_focus` | items flagged "focus" today (seqt > 0) | |
+| 6 | `get_focus` | items flagged "focus" (seqt > 0), excluding inactive states | ✅ |
 | 7 | `list_projects` | state=11 (active projects) | |
 | 8 | `get_project` | project + child tasks by id or name | |
 | 9 | `list_areas` | all areas | |

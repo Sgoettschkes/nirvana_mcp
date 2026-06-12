@@ -18,17 +18,17 @@ function toItem(task: NirvanaTask): TaskListItem {
   };
 }
 
-export interface StateFilteredToolConfig {
+export interface TaskListToolConfig {
   name: string;
   title: string;
   description: string;
-  state: number;
+  filter: (task: NirvanaTask) => boolean;
 }
 
-export function registerStateFilteredTool(
+export function registerTaskListTool(
   server: McpServer,
   client: NirvanaClient,
-  config: StateFilteredToolConfig,
+  config: TaskListToolConfig,
 ): void {
   server.registerTool(
     config.name,
@@ -42,11 +42,7 @@ export function registerStateFilteredTool(
       const items = data.results
         .map((r) => r.task)
         .filter((t): t is NirvanaTask => t != null)
-        .filter(
-          (t) =>
-            Number(t.type) === TaskType.Task &&
-            Number(t.state) === config.state,
-        )
+        .filter(config.filter)
         .map(toItem);
 
       return {
@@ -59,4 +55,25 @@ export function registerStateFilteredTool(
       };
     },
   );
+}
+
+export interface StateFilteredToolConfig {
+  name: string;
+  title: string;
+  description: string;
+  state: number;
+}
+
+export function registerStateFilteredTool(
+  server: McpServer,
+  client: NirvanaClient,
+  config: StateFilteredToolConfig,
+): void {
+  registerTaskListTool(server, client, {
+    name: config.name,
+    title: config.title,
+    description: config.description,
+    filter: (t) =>
+      Number(t.type) === TaskType.Task && Number(t.state) === config.state,
+  });
 }

@@ -32,6 +32,7 @@ To remove: `claude mcp remove nirvana`.
 | `get_scheduled` | Tasks deferred to a future start date (state=3). |
 | `get_someday` | Tasks parked in Someday/Maybe (state=4). |
 | `get_logbook` | Completed tasks (state=7) — currently returns all-time history. |
+| `get_focus` | Tasks flagged for Focus (`seqt > 0`), excluding completed/trashed items. |
 
 ## How it works
 
