@@ -55,11 +55,11 @@ Verified live on author's machine using the public `npx -y @sgoettschkes/nirvana
 | 5 | `get_someday` | state=4 | ✅ |
 | 6 | `get_focus` | items flagged "focus" (seqt > 0), excluding inactive states | ✅ |
 | 7 | `list_projects` | type=1, state=11 (active projects) | ✅ |
-| 8 | `get_project` | project + child tasks by id or name | |
+| 8 | `get_project` | project + child tasks/sub-projects by id or name | ✅ |
 | 9 | `list_areas` | all areas | |
 | 10 | `list_tags` | all tags/contexts/contacts | |
 | 11 | `search_tasks` | client-side filter by text/tag/area/state | leverages cached bulk fetch |
-| 12 | `get_logbook` | completed tasks (state=7) | ✅ — but returns all-time history; needs `since`/`limit` filter once we re-introduce input schemas (zod) |
+| 12 | `get_logbook` | completed tasks (state=7) | ✅ — returns all-time history; could grow `since` / `limit` inputs now that zod is back |
 
 ### Write Tools (after read tools are stable)
 

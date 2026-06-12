@@ -13,6 +13,7 @@ import { registerGetSomeday } from "./tools/get-someday.js";
 import { registerGetLogbook } from "./tools/get-logbook.js";
 import { registerGetFocus } from "./tools/get-focus.js";
 import { registerListProjects } from "./tools/list-projects.js";
+import { registerGetProject } from "./tools/get-project.js";
 import { runLogin } from "./login-command.js";
 
 const pkgPath = join(dirname(fileURLToPath(import.meta.url)), "..", "package.json");
@@ -62,6 +63,7 @@ async function runServer(): Promise<void> {
   registerGetLogbook(server, client);
   registerGetFocus(server, client);
   registerListProjects(server, client);
+  registerGetProject(server, client);
 
   const transport = new StdioServerTransport();
   await server.connect(transport);

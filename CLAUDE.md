@@ -7,7 +7,8 @@ MCP server exposing NirvanaHQ (GTD task manager) to Claude.
 ## Stack
 
 - TypeScript, Node ≥ 20 (pinned to a specific version via `.tool-versions` for asdf), ES modules (`"type": "module"`)
-- `@modelcontextprotocol/sdk` — high-level `McpServer` API. Brings zod transitively when we eventually need input schemas.
+- `@modelcontextprotocol/sdk` — high-level `McpServer` API
+- `zod` — input schemas for tools that take arguments (e.g. `get_project`). The SDK accepts a `ZodRawShape` and validates on the way in.
 - stdio transport
 - Distributed via npx as `@sgoettschkes/nirvana-mcp`; published from GitHub Actions via npm Trusted Publishing (OIDC). No `NPM_TOKEN` secret.
 
