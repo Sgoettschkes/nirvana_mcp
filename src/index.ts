@@ -17,6 +17,9 @@ import { registerGetProject } from "./tools/get-project.js";
 import { registerListAreas } from "./tools/list-areas.js";
 import { registerListTags } from "./tools/list-tags.js";
 import { registerSearchTasks } from "./tools/search-tasks.js";
+import { registerGetLater } from "./tools/get-later.js";
+import { registerGetTrash } from "./tools/get-trash.js";
+import { registerGetRecurring } from "./tools/get-recurring.js";
 import { runLogin } from "./login-command.js";
 
 const pkgPath = join(dirname(fileURLToPath(import.meta.url)), "..", "package.json");
@@ -70,6 +73,9 @@ async function runServer(): Promise<void> {
   registerListAreas(server, client);
   registerListTags(server, client);
   registerSearchTasks(server, client);
+  registerGetLater(server, client);
+  registerGetTrash(server, client);
+  registerGetRecurring(server, client);
 
   const transport = new StdioServerTransport();
   await server.connect(transport);

@@ -31,7 +31,10 @@ To remove: `claude mcp remove nirvana`.
 | `get_waiting_for` | Tasks Waiting on someone else (state=2). |
 | `get_scheduled` | Tasks deferred to a future start date (state=3). |
 | `get_someday` | Tasks parked in Someday/Maybe (state=4). |
+| `get_later` | Tasks in the Later list (state=5) — between Next and Someday. |
+| `get_trash` | Soft-deleted tasks (state=6), still recoverable. |
 | `get_logbook` | Completed tasks (state=7) — currently returns all-time history. |
+| `get_recurring` | Recurring task templates (state=9) — the rules, not individual occurrences. |
 | `get_focus` | Tasks flagged for Focus (`seqt > 0`), excluding completed/trashed items. |
 | `list_projects` | Active projects (`type=1`, `state=11`). |
 | `get_project` | One project plus its direct children (tasks and sub-projects). Identify by `id` or `name`. |

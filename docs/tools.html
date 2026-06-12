@@ -211,7 +211,7 @@
           <a href="https://www.npmjs.com/package/@sgoettschkes/nirvana-mcp"
             >@sgoettschkes/nirvana-mcp</a
           >
-          exposes the following 11 tools to Claude Code and any
+          exposes the following 14 tools to Claude Code and any
           MCP-compatible client. All tools are read-only against
           <a href="https://www.nirvanahq.com/">NirvanaHQ</a>.
         </p>
@@ -300,6 +300,28 @@
               </td>
             </tr>
             <tr>
+              <td class="tool-name">get_later</td>
+              <td class="none">none</td>
+              <td>
+                <code class="out">[{id, name, note, tags[]}]</code>
+              </td>
+              <td class="desc">
+                Tasks in the Later list (<code class="out">state=5</code>)
+                — between Next and Someday.
+              </td>
+            </tr>
+            <tr>
+              <td class="tool-name">get_trash</td>
+              <td class="none">none</td>
+              <td>
+                <code class="out">[{id, name, note, tags[]}]</code>
+              </td>
+              <td class="desc">
+                Soft-deleted tasks (<code class="out">state=6</code>) — still
+                recoverable from Trash.
+              </td>
+            </tr>
+            <tr>
               <td class="tool-name">get_logbook</td>
               <td class="none">none</td>
               <td>
@@ -309,6 +331,18 @@
                 Completed tasks (<code class="out">state=7</code>).
                 Currently returns full history — date-range filter is a
                 planned enhancement.
+              </td>
+            </tr>
+            <tr>
+              <td class="tool-name">get_recurring</td>
+              <td class="none">none</td>
+              <td>
+                <code class="out">[{id, name, note, tags[]}]</code>
+              </td>
+              <td class="desc">
+                Recurring task templates (<code class="out">state=9</code>)
+                — the rules that spawn instances on a schedule, not the
+                individual occurrences.
               </td>
             </tr>
 

@@ -53,6 +53,9 @@ Verified live on author's machine using the public `npx -y @sgoettschkes/nirvana
 | 3 | `get_waiting_for` | state=2 | ✅ |
 | 4 | `get_scheduled` | state=3 | ✅ |
 | 5 | `get_someday` | state=4 | ✅ |
+| 5b | `get_later` | state=5 — between Next and Someday (added after audit) | ✅ |
+| 5c | `get_trash` | state=6 — soft-deleted but recoverable | ✅ |
+| 5d | `get_recurring` | state=9 — recurring task templates | ✅ |
 | 6 | `get_focus` | items flagged "focus" (seqt > 0), excluding inactive states | ✅ |
 | 7 | `list_projects` | type=1, state=11 (active projects) | ✅ |
 | 8 | `get_project` | project + child tasks/sub-projects by id or name | ✅ |
