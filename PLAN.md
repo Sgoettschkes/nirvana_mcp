@@ -48,18 +48,18 @@ Verified live on author's machine using the public `npx -y @sgoettschkes/nirvana
 
 | # | Tool | Purpose | Notes |
 |---|---|---|---|
-| 1 | `get_inbox` | Items in Inbox (state=0) | **MVP** |
-| 2 | `get_next_actions` | state=1, optionally filtered by tag/area | high value for GTD |
-| 3 | `get_waiting_for` | state=2 | |
-| 4 | `get_scheduled` | state=3, optionally date-range | |
-| 5 | `get_someday` | state=4 | |
-| 6 | `get_focus` | items flagged "focus" today | |
+| 1 | `get_inbox` | Items in Inbox (state=0) | ✅ MVP |
+| 2 | `get_next_actions` | state=1 | ✅ |
+| 3 | `get_waiting_for` | state=2 | ✅ |
+| 4 | `get_scheduled` | state=3 | ✅ |
+| 5 | `get_someday` | state=4 | ✅ |
+| 6 | `get_focus` | items flagged "focus" today (seqt > 0) | |
 | 7 | `list_projects` | state=11 (active projects) | |
 | 8 | `get_project` | project + child tasks by id or name | |
 | 9 | `list_areas` | all areas | |
 | 10 | `list_tags` | all tags/contexts/contacts | |
 | 11 | `search_tasks` | client-side filter by text/tag/area/state | leverages cached bulk fetch |
-| 12 | `get_logbook` | recently completed (state=7) | |
+| 12 | `get_logbook` | completed tasks (state=7) | ✅ — but returns all-time history; needs `since`/`limit` filter once we re-introduce input schemas (zod) |
 
 ### Write Tools (after read tools are stable)
 

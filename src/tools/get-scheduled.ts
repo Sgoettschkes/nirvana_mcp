@@ -3,15 +3,15 @@ import { NirvanaClient } from "../nirvana/client.js";
 import { TaskState } from "../nirvana/types.js";
 import { registerStateFilteredTool } from "./state-filter.js";
 
-export function registerGetInbox(
+export function registerGetScheduled(
   server: McpServer,
   client: NirvanaClient,
 ): void {
   registerStateFilteredTool(server, client, {
-    name: "get_inbox",
-    title: "Get Nirvana Inbox",
+    name: "get_scheduled",
+    title: "Get Nirvana Scheduled",
     description:
-      "Returns tasks in the Nirvana Inbox (state=0) — unprocessed items the user hasn't categorized yet.",
-    state: TaskState.Inbox,
+      "Returns Scheduled tasks in Nirvana (state=3) — tasks deferred to a specific future start date.",
+    state: TaskState.Scheduled,
   });
 }

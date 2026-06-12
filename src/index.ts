@@ -6,6 +6,11 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { NirvanaClient } from "./nirvana/client.js";
 import { registerGetInbox } from "./tools/get-inbox.js";
+import { registerGetNextActions } from "./tools/get-next-actions.js";
+import { registerGetWaitingFor } from "./tools/get-waiting-for.js";
+import { registerGetScheduled } from "./tools/get-scheduled.js";
+import { registerGetSomeday } from "./tools/get-someday.js";
+import { registerGetLogbook } from "./tools/get-logbook.js";
 import { runLogin } from "./login-command.js";
 
 const pkgPath = join(dirname(fileURLToPath(import.meta.url)), "..", "package.json");
@@ -48,6 +53,11 @@ async function runServer(): Promise<void> {
   });
 
   registerGetInbox(server, client);
+  registerGetNextActions(server, client);
+  registerGetWaitingFor(server, client);
+  registerGetScheduled(server, client);
+  registerGetSomeday(server, client);
+  registerGetLogbook(server, client);
 
   const transport = new StdioServerTransport();
   await server.connect(transport);
