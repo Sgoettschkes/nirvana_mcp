@@ -14,9 +14,10 @@ Built:
 - `src/nirvana/{types,client}.ts` — typed `NirvanaClient` with `login` (MD5-hashed password) and `everything`. Surfaces `results[0].error` as `NirvanaApiError`.
 - `src/tools/get-inbox.ts` — filters `type=0`/`state=0`/`completed=0`.
 - `src/index.ts` — wires env vars → client → tool registration.
-- `scripts/login.ts` — dev-only login helper.
 
-## Phase 2 — Distribution (current)
+(A `scripts/login.ts` dev helper existed briefly; folded into `src/login-command.ts` in `6c09a6e`.)
+
+## Phase 2 — Distribution
 
 Goal: a stranger can install and use this server in Claude Code with three commands.
 
@@ -35,12 +36,9 @@ Goal: a stranger can install and use this server in Claude Code with three comma
 
 `README.md` covers: three-command install (`login` → `claude mcp add` → restart), current tool list, how it works, troubleshooting (error 98 etc.), and dev setup. Targets Claude Code only per Phase-2 decisions.
 
-## Phase 3 — Local verification (DoD for shipping)
+## Phase 3 — Local verification (DoD for shipping) ✅
 
-- Run `claude mcp add` on this machine pointing at the locally-built binary first (not published).
-- Confirm Claude Code lists `nirvana` and `get_inbox` is callable.
-- Ask Claude: *"What's in my Nirvana inbox?"* — get back the real list.
-- Publish a `0.0.1` tag, then re-install via the public `npx ... ` flow and repeat the test against the published package.
+Verified live on author's machine using the public `npx -y @sgoettschkes/nirvana-mcp` flow: `claude mcp add` registers the server, `get_inbox` returns real inbox items, and the three README install steps work end-to-end from a clean shell. MVP shipped at `v0.0.3`.
 
 ---
 
@@ -92,14 +90,14 @@ Goal: a stranger can install and use this server in Claude Code with three comma
 
 ## Open Questions
 
-Resolved in Phase 1 prep (see [CLAUDE.md](./CLAUDE.md#nirvana-api-reference)):
+Resolved (see [CLAUDE.md](./CLAUDE.md#nirvana-api-reference) for full details):
 
-- ✅ Auth flow: `POST auth.new` with plaintext password over HTTPS, returns a long-lived token.
+- ✅ Auth flow: `POST auth.new` with MD5 hex digest of the password, returns a long-lived token.
 - ✅ Read endpoint: `GET ?method=everything&since=0` returns all tasks/tags/user in one shot.
 - ✅ Write endpoint: `POST ?api=json` with JSON array of `{method: "task.save", ...}`.
 - ✅ Required common params: `api`, `requestid`, `clienttime`, `authtoken`, `appid`, `appversion`.
+- ✅ Does the API still work for active accounts? Verified live against author's account.
 
 Still open:
 
-- Does the API still work for active accounts? (Verified live in Phase 1 step 6.)
 - Rate limits / quota — not documented. Will surface from error responses if hit.

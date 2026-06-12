@@ -41,7 +41,7 @@ Your password is hashed locally and never stored. Only the auth token is persist
 
 - **`Nirvana API error 98: Invalid Login Details`** — wrong username/password.
 - **`Missing required env var: NIRVANA_AUTH_TOKEN`** — run `nirvana-mcp login` first and put the token in your `claude mcp add` command.
-- **Tool returns empty list when inbox isn't empty** — try `claude mcp remove nirvana && claude mcp add ...` to re-add with a fresh token; the old one may have been revoked.
+- **`Nirvana API error` from a tool call** — your token was probably revoked (changing your Nirvana password does this). Re-run `nirvana-mcp login`, then `claude mcp remove nirvana && claude mcp add ...` with the new token.
 
 ## Development
 

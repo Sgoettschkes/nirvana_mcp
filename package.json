@@ -37,8 +37,7 @@
     "url": "git+https://github.com/Sgoettschkes/nirvana_mcp.git"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.29.0",
-    "zod": "^4.4.3"
+    "@modelcontextprotocol/sdk": "^1.29.0"
   },
   "devDependencies": {
     "@types/node": "^25.9.3",
