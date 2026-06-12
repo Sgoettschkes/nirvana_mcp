@@ -33,7 +33,7 @@ To remove: `claude mcp remove nirvana`.
 NirvanaHQ has an undocumented HTTP API at `https://api.nirvanahq.com`. This server:
 
 1. Calls `auth.new` with your username and the MD5 of your password to obtain a long-lived auth token.
-2. Calls the bulk `everything` endpoint and filters server-side state on the client to answer each tool.
+2. Calls the bulk `everything` endpoint and filters the result client-side to answer each tool.
 
 Your password is hashed locally and never stored. Only the auth token is persisted (in your MCP client's config). Revoke it any time by changing your Nirvana password.
 
