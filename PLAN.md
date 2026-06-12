@@ -24,13 +24,12 @@ Goal: a stranger can install and use this server in Claude Code with three comma
 
 `src/index.ts` is now a dispatcher: bare invocation starts the server, `login` runs the interactive auth flow, `--help` prints usage. Hidden-password prompt uses raw mode; falls back to `NIRVANA_USERNAME` / `NIRVANA_PASSWORD` env vars when stdin isn't a TTY. `NIRVANA_APP_ID` defaults to `"nirvana-mcp"` so the only required env var for end users is `NIRVANA_AUTH_TOKEN`.
 
-### 2b — npm publish (pending user action)
-
-Prep is done; the actual publish needs the maintainer's npm credentials:
+### 2b — npm publish ✅
 
 - `npm pack --dry-run` shows 7.1KB tarball with only `dist/`, `README.md`, `package.json`. ✅
-- `.github/workflows/publish.yml` runs `npm publish --provenance --access public` on `v*` tag push using an `NPM_TOKEN` secret. ✅
-- **TODO (maintainer):** `npm login` as `sgoettschkes`, run `npm publish --access public` for the first manual release, then add `NPM_TOKEN` to GitHub repo secrets so future releases ship via `git tag v0.0.x && git push --tags`.
+- First release published manually with 2FA OTP (`0.0.1`). ✅
+- `.github/workflows/publish.yml` runs `npm publish --provenance --access public` on `v*` tag push. Auth is via **npm Trusted Publishing** (OIDC) — no `NPM_TOKEN` secret needed. The package on npmjs is configured to trust `Sgoettschkes/nirvana_mcp` via workflow `publish.yml`. ✅
+- Future releases: `npm version patch && git push --follow-tags`.
 
 ### 2c — README with Claude Code install ✅
 
