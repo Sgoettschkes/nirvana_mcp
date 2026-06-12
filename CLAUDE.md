@@ -25,10 +25,54 @@ src/
 
 ## Nirvana API reference
 
-- **Base URL:** `https://api.nirvanahq.com`
-- **Required params on every call:** `api`, `requestid` (UUID), `clienttime` (unix seconds), `authtoken` (MD5), `appid`, `appversion`
-- **Read:** single bulk `everything` endpoint — fetch once, filter client-side
-- **Write:** `task.save` (POST) for tasks/projects, `tag.save` (POST) for tags/areas/contexts/contacts
+Verified against community client implementations: [meeech/nirv](https://github.com/meeech/nirv) (Ruby) and [mikesimons/nibbana](https://github.com/mikesimons/nibbana) (CoffeeScript). The API has no official documentation.
+
+### Base URL & common params
+
+- **Base URL:** `https://api.nirvanahq.com/`
+- **Common URL params on every call:**
+  - `api`: `"rest"` for single calls, `"json"` for batch (array body)
+  - `requestid`: UUID v4, fresh per request
+  - `clienttime`: unix timestamp (seconds)
+  - `authtoken`: token returned by login (omit for `auth.new`)
+  - `appid`: arbitrary application identifier (we use `"nirvana-mcp"`)
+  - `appversion`: numeric version
+
+### Authentication
+
+`POST https://api.nirvanahq.com/?api=rest&...` with form-encoded body:
+```
+method=auth.new&u={username}&p={password}&gmtoffset={hours_from_utc}
+```
+Password is sent **plaintext over HTTPS** (no client-side MD5). Response:
+```json
+{ "results": [ { "auth": { "token": "..." } } ] }
+```
+Cache the token; reuse across sessions.
+
+### Read — `everything`
+
+`GET https://api.nirvanahq.com/?api=rest&appid=...&authtoken=...&method=everything&since={unix_ts}` (use `since=0` for full snapshot). Response:
+```json
+{ "results": [ {"task": {...}}, {"tag": {...}}, {"user": {...}} ] }
+```
+All filtering (Inbox vs Next, by tag/area, etc.) happens client-side.
+
+### Write — `task.save` / `tag.save`
+
+`POST https://api.nirvanahq.com/?api=json&appid=...&authtoken=...` with JSON array body:
+```json
+[{ "method": "task.save", "id": "uuid", "state": 0, "_state": 1718200000, ... }]
+```
+Every modifiable field has a matching `_field` modification timestamp used for conflict resolution. Always set both.
+
+### Error handling
+
+The API returns HTTP 200 even for app-level errors. Always check `response.results[0].error` → `{code, message}` and surface it.
+
+### Task fields
+
+`id` (UUID), `type` (0=task, 1=project), `state`, `parentid`, `name`, `note`, `tags` (string in form `,a,b,c,`), `waitingfor`, `completed` (unix ts or 0), `cancelled`, `seq` / `seqp` / `seqt` (ordering; `seqt > 0` = focused), `ps`, `etime` (estimated minutes), `energy`, `startdate` / `duedate` (`YYYYMMDD`), `recurring` (object or null).
 
 ### Task `state` values
 
@@ -41,9 +85,14 @@ src/
 | 4     | Someday  | 11    | Active project |
 | 5     | Later    |       |         |
 
-### Caveat
+### Tag `type` values
 
-The API was announced in 2009 and never officially relaunched. Endpoint names and auth flow above come from community docs and may need verification by inspecting the live web app before being trusted in code.
+| Value | Meaning |
+|-------|---------|
+| 0     | Tag     |
+| 1     | Area    |
+| 2     | Contact |
+| 3     | Context |
 
 ## Conventions
 

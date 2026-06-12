@@ -2,34 +2,25 @@
 
 Stack, API reference, and conventions live in [CLAUDE.md](./CLAUDE.md). This file is the roadmap.
 
-## Phase 0 — Infrastructure
+## Phase 0 — Infrastructure ✅
 
-1. `npm init` — set `"type": "module"`, `bin` entry pointing to `dist/index.js`.
-2. Install deps: `@modelcontextprotocol/sdk`, `zod`. Dev: `typescript`, `tsx`, `@types/node`.
-3. `tsconfig.json` — `target: ES2022`, `module: NodeNext`, `outDir: dist`, `strict: true`.
-4. Project layout:
-   ```
-   src/
-     index.ts          # MCP server bootstrap
-     nirvana/
-       client.ts       # auth + HTTP wrapper
-       types.ts        # Task, Project, Tag, etc.
-     tools/
-       get-inbox.ts    # first tool
-   ```
-5. `.env.example` with `NIRVANA_APP_ID`, `NIRVANA_USERNAME`, `NIRVANA_PASSWORD` (or pre-computed `NIRVANA_AUTH_TOKEN`).
-6. Scripts: `build` (`tsc`), `dev` (`tsx src/index.ts`), `inspect` (run via MCP Inspector).
+Done in commit `02d413f`. Minimal working MCP server bootstrap over stdio (`initialize` handshake verified). Stack/layout decisions live in [CLAUDE.md](./CLAUDE.md).
 
 ## Phase 1 — MVP: `get_inbox`
 
-1. Build `NirvanaClient`:
-   - `authenticate(username, password)` → returns auth token (MD5-based; confirm exact flow by sniffing).
-   - `getEverything(since?)` → returns all tasks; cache locally per process.
-2. Register MCP tool `get_inbox`:
+API shape verified against [meeech/nirv](https://github.com/meeech/nirv) and [mikesimons/nibbana](https://github.com/mikesimons/nibbana) — full reference in [CLAUDE.md](./CLAUDE.md#nirvana-api-reference). No need to sniff browser traffic.
+
+1. `src/nirvana/types.ts` — `NirvanaTask`, `NirvanaTag`, `EverythingResponse`, state/type enums.
+2. `src/nirvana/client.ts` — `NirvanaClient`:
+   - `static login(appId, username, password)` → returns auth token (one-time helper).
+   - `everything(since = 0)` → returns full snapshot, surfaces `results[0].error` as a thrown error.
+3. `scripts/login.ts` — small CLI that prompts/accepts username+password, prints a token to paste into `.env`.
+4. `src/tools/get-inbox.ts` — registers `get_inbox`:
    - No inputs.
-   - Returns array of tasks where `state === 0` and `completed == false` and `trashed == false`.
-   - Output shape: `{ id, name, note, tags, created_at }[]`.
-3. Verify with `npx @modelcontextprotocol/inspector node dist/index.js`.
+   - Filters `everything()` results: `type === 0`, `state === 0`, `completed === 0`.
+   - Output: `{ id, name, note, tags: string[], created_at? }[]`.
+5. `src/index.ts` — read `NIRVANA_APP_ID` + `NIRVANA_AUTH_TOKEN` env vars, fail fast if missing, construct client, register tool.
+6. Verify with `npm run inspect` and against live account.
 
 ## Phase 2 — Distribution
 
@@ -107,9 +98,14 @@ Stack, API reference, and conventions live in [CLAUDE.md](./CLAUDE.md). This fil
 
 ## Open Questions
 
-1. Does the API still work? It was announced in 2009 and never officially relaunched. We may need to reverse-engineer the current web app's traffic.
-2. Auth flow — does the documented MD5(password) login still work, or do they use a session cookie now?
-3. Rate limits / quota?
-4. Bulk endpoint name — `everything.json` is the community-documented name; confirm.
+Resolved in Phase 1 prep (see [CLAUDE.md](./CLAUDE.md#nirvana-api-reference)):
 
-These get resolved in Phase 1 step 1 (inspect browser traffic) before writing any code.
+- ✅ Auth flow: `POST auth.new` with plaintext password over HTTPS, returns a long-lived token.
+- ✅ Read endpoint: `GET ?method=everything&since=0` returns all tasks/tags/user in one shot.
+- ✅ Write endpoint: `POST ?api=json` with JSON array of `{method: "task.save", ...}`.
+- ✅ Required common params: `api`, `requestid`, `clienttime`, `authtoken`, `appid`, `appversion`.
+
+Still open:
+
+- Does the API still work for active accounts? (Verified live in Phase 1 step 6.)
+- Rate limits / quota — not documented. Will surface from error responses if hit.
