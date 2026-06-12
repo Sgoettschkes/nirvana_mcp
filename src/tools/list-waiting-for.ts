@@ -3,15 +3,15 @@ import { NirvanaClient } from "../nirvana/client.js";
 import { TaskState } from "../nirvana/types.js";
 import { registerStateFilteredTool } from "./state-filter.js";
 
-export function registerGetLater(
+export function registerListWaitingFor(
   server: McpServer,
   client: NirvanaClient,
 ): void {
   registerStateFilteredTool(server, client, {
-    name: "get_later",
-    title: "Get Nirvana Later",
+    name: "list_waiting_for",
+    title: "List Nirvana Waiting For",
     description:
-      "Returns tasks in Nirvana's Later list (state=5) — things the user will definitely do, but not in the immediate Next queue. Sits between Next and Someday.",
-    state: TaskState.Later,
+      "Returns tasks the user is Waiting on someone else for in Nirvana (state=2). Often blocked on a contact's response or delivery.",
+    state: TaskState.Waiting,
   });
 }

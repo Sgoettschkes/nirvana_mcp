@@ -9,13 +9,13 @@ const INACTIVE_STATES = new Set<number>([
   TaskState.Deleted,
 ]);
 
-export function registerGetFocus(
+export function registerListFocus(
   server: McpServer,
   client: NirvanaClient,
 ): void {
   registerTaskListTool(server, client, {
-    name: "get_focus",
-    title: "Get Nirvana Focus",
+    name: "list_focus",
+    title: "List Nirvana Focus",
     description:
       "Returns tasks the user has flagged for Focus in Nirvana (seqt > 0), excluding completed or trashed items. These are what the user is actively prioritizing right now.",
     filter: (t) =>

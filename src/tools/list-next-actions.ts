@@ -3,15 +3,15 @@ import { NirvanaClient } from "../nirvana/client.js";
 import { TaskState } from "../nirvana/types.js";
 import { registerStateFilteredTool } from "./state-filter.js";
 
-export function registerGetTrash(
+export function registerListNextActions(
   server: McpServer,
   client: NirvanaClient,
 ): void {
   registerStateFilteredTool(server, client, {
-    name: "get_trash",
-    title: "Get Nirvana Trash",
+    name: "list_next_actions",
+    title: "List Nirvana Next Actions",
     description:
-      "Returns tasks the user has thrown into Trash (state=6). These are soft-deleted but recoverable — useful for finding something the user trashed but might want back.",
-    state: TaskState.Trashed,
+      "Returns tasks marked as Next Actions in Nirvana (state=1) — concrete, actionable next steps the user has committed to.",
+    state: TaskState.Next,
   });
 }

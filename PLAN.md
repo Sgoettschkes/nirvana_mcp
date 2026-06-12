@@ -6,9 +6,9 @@ Stack, API reference, and conventions live in [CLAUDE.md](./CLAUDE.md). This fil
 
 Done in commit `02d413f`. Minimal working MCP server bootstrap over stdio (`initialize` handshake verified). Stack/layout decisions live in [CLAUDE.md](./CLAUDE.md).
 
-## Phase 1 — MVP: `get_inbox` ✅
+## Phase 1 — MVP: `list_inbox` ✅
 
-Done in commits `f2823b9` (impl) and `60a2434` (MD5 fix). Live `get_inbox` returns real inbox items from author's account.
+Done in commits `f2823b9` (impl) and `60a2434` (MD5 fix). Live tool returns real inbox items from author's account. (Originally shipped as `get_inbox`; renamed in the list_/get_ convention pass.)
 
 Built:
 - `src/nirvana/{types,client}.ts` — typed `NirvanaClient` with `login` (MD5-hashed password) and `everything`. Surfaces `results[0].error` as `NirvanaApiError`.
@@ -38,7 +38,7 @@ Goal: a stranger can install and use this server in Claude Code with three comma
 
 ## Phase 3 — Local verification (DoD for shipping) ✅
 
-Verified live on author's machine using the public `npx -y @sgoettschkes/nirvana-mcp` flow: `claude mcp add` registers the server, `get_inbox` returns real inbox items, and the three README install steps work end-to-end from a clean shell. MVP shipped at `v0.0.3`.
+Verified live on author's machine using the public `npx -y @sgoettschkes/nirvana-mcp` flow: `claude mcp add` registers the server, `list_inbox` returns real inbox items, and the three README install steps work end-to-end from a clean shell. MVP shipped at `v0.0.3`.
 
 ---
 
@@ -48,21 +48,21 @@ Verified live on author's machine using the public `npx -y @sgoettschkes/nirvana
 
 | # | Tool | Purpose | Notes |
 |---|---|---|---|
-| 1 | `get_inbox` | Items in Inbox (state=0) | ✅ MVP |
-| 2 | `get_next_actions` | state=1 | ✅ |
-| 3 | `get_waiting_for` | state=2 | ✅ |
-| 4 | `get_scheduled` | state=3 | ✅ |
-| 5 | `get_someday` | state=4 | ✅ |
-| 5b | `get_later` | state=5 — between Next and Someday (added after audit) | ✅ |
-| 5c | `get_trash` | state=6 — soft-deleted but recoverable | ✅ |
-| 5d | `get_recurring` | state=9 — recurring task templates | ✅ |
-| 6 | `get_focus` | items flagged "focus" (seqt > 0), excluding inactive states | ✅ |
+| 1 | `list_inbox` | Items in Inbox (state=0) | ✅ MVP |
+| 2 | `list_next_actions` | state=1 | ✅ |
+| 3 | `list_waiting_for` | state=2 | ✅ |
+| 4 | `list_scheduled` | state=3 | ✅ |
+| 5 | `list_someday` | state=4 | ✅ |
+| 5b | `list_later` | state=5 — between Next and Someday (added after audit) | ✅ |
+| 5c | `list_trash` | state=6 — soft-deleted but recoverable | ✅ |
+| 5d | `list_recurring` | state=9 — recurring task templates | ✅ |
+| 6 | `list_focus` | items flagged "focus" (seqt > 0), excluding inactive states | ✅ |
 | 7 | `list_projects` | type=1, state=11 (active projects) | ✅ |
 | 8 | `get_project` | project + child tasks/sub-projects by id or name | ✅ |
 | 9 | `list_areas` | all areas (tag type=1) | ✅ |
 | 10 | `list_tags` | tags + contexts + contacts (tag type ≠ 1); single tool with `kind` discriminator | ✅ |
 | 11 | `search_tasks` | optional text/tag/area/state filters; trashed/deleted always excluded, logged excluded unless explicitly requested | ✅ |
-| 12 | `get_logbook` | completed tasks (state=7) | ✅ — returns all-time history; could grow `since` / `limit` inputs now that zod is back |
+| 12 | `list_logbook` | completed tasks (state=7) | ✅ — returns all-time history; could grow `since` / `limit` inputs |
 
 ### Write Tools (after read tools are stable)
 

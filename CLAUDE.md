@@ -107,7 +107,18 @@ The API returns HTTP 200 even for app-level errors. Always check `response.resul
 
 ## Conventions
 
-- Read-only tools ship before write tools (see PLAN.md priority tables).
-- Destructive writes (`delete_task`, `purge_task`) require explicit confirmation in the tool description so the model gates them.
+### Tool naming
+
+- **`list_*`** — returns an array. Used for both named GTD buckets (`list_inbox`, `list_next_actions`, `list_logbook`, …) and type enumerations (`list_projects`, `list_areas`, `list_tags`). If the output is an array, the name starts with `list_`. No exceptions.
+- **`get_*`** — returns a single named entity. Always requires an identifier (id or name). Today only `get_project`. Future single-item lookups follow the same shape.
+- **`search_*`** — predicate-based query. Takes one or more optional filters and returns matching items. Today only `search_tasks`.
+- **`create_*` / `update_*` / `delete_*` / `complete_*` / `set_*`** — write tools. Each acts on one entity at a time; risky ones (`delete_*`, `purge_*`) gate behind explicit confirmation in the tool description.
+
+The shape of the name should match the shape of the result, not the GTD vocabulary. "List my inbox" reads slightly less natural than "get my inbox" in English, but the consistency wins for LLM tool selection — Claude was trained on SDK conventions where `list_*` means array.
+
+### Workflow
+
+- Read-only tools shipped before write tools (see PLAN.md priority tables).
+- Destructive writes require explicit confirmation in the tool description so the model gates them.
 - Secrets only via env vars (see above). Never hard-code; never log the token.
 - Validate every tool with `npx @modelcontextprotocol/inspector node dist/index.js` before declaring it done.

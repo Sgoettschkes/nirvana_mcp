@@ -2,7 +2,7 @@
 
 MCP server that exposes [NirvanaHQ](https://www.nirvanahq.com/) — the GTD task manager — to Claude Code and other MCP-compatible clients.
 
-> Status: early. `get_inbox` is the only tool today. More read-only tools first, then writes. See [PLAN.md](./PLAN.md) for the roadmap.
+> Status: 15 read-only tools shipped (see [docs/tools.html](./docs/tools.html) for the full reference). Writes are next. See [PLAN.md](./PLAN.md) for the roadmap.
 
 ## Install into Claude Code
 
@@ -26,16 +26,16 @@ To remove: `claude mcp remove nirvana`.
 
 | Tool | Description |
 |---|---|
-| `get_inbox` | Tasks in the Inbox (state=0) — unprocessed items not yet categorized. |
-| `get_next_actions` | Tasks marked Next (state=1) — concrete, actionable next steps. |
-| `get_waiting_for` | Tasks Waiting on someone else (state=2). |
-| `get_scheduled` | Tasks deferred to a future start date (state=3). |
-| `get_someday` | Tasks parked in Someday/Maybe (state=4). |
-| `get_later` | Tasks in the Later list (state=5) — between Next and Someday. |
-| `get_trash` | Soft-deleted tasks (state=6), still recoverable. |
-| `get_logbook` | Completed tasks (state=7) — currently returns all-time history. |
-| `get_recurring` | Recurring task templates (state=9) — the rules, not individual occurrences. |
-| `get_focus` | Tasks flagged for Focus (`seqt > 0`), excluding completed/trashed items. |
+| `list_inbox` | Tasks in the Inbox (state=0) — unprocessed items not yet categorized. |
+| `list_next_actions` | Tasks marked Next (state=1) — concrete, actionable next steps. |
+| `list_waiting_for` | Tasks Waiting on someone else (state=2). |
+| `list_scheduled` | Tasks deferred to a future start date (state=3). |
+| `list_someday` | Tasks parked in Someday/Maybe (state=4). |
+| `list_later` | Tasks in the Later list (state=5) — between Next and Someday. |
+| `list_trash` | Soft-deleted tasks (state=6), still recoverable. |
+| `list_logbook` | Completed tasks (state=7) — currently returns all-time history. |
+| `list_recurring` | Recurring task templates (state=9) — the rules, not individual occurrences. |
+| `list_focus` | Tasks flagged for Focus (`seqt > 0`), excluding completed/trashed items. |
 | `list_projects` | Active projects (`type=1`, `state=11`). |
 | `get_project` | One project plus its direct children (tasks and sub-projects). Identify by `id` or `name`. |
 | `list_areas` | High-level life domains (e.g. "work", "personal"). |
