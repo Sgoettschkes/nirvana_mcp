@@ -58,7 +58,7 @@ Verified live on author's machine using the public `npx -y @sgoettschkes/nirvana
 | 8 | `get_project` | project + child tasks/sub-projects by id or name | ✅ |
 | 9 | `list_areas` | all areas (tag type=1) | ✅ |
 | 10 | `list_tags` | tags + contexts + contacts (tag type ≠ 1); single tool with `kind` discriminator | ✅ |
-| 11 | `search_tasks` | client-side filter by text/tag/area/state | leverages cached bulk fetch |
+| 11 | `search_tasks` | optional text/tag/area/state filters; trashed/deleted always excluded, logged excluded unless explicitly requested | ✅ |
 | 12 | `get_logbook` | completed tasks (state=7) | ✅ — returns all-time history; could grow `since` / `limit` inputs now that zod is back |
 
 ### Write Tools (after read tools are stable)
