@@ -1,6 +1,6 @@
 {
   "name": "@sgoettschkes/nirvana-mcp",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "MCP server exposing NirvanaHQ (GTD task manager) to Claude and other MCP clients.",
   "type": "module",
   "bin": {
