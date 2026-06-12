@@ -17,6 +17,13 @@ export const TaskType = {
   Project: 1,
 } as const;
 
+export const TagType = {
+  Tag: 0,
+  Area: 1,
+  Contact: 2,
+  Context: 3,
+} as const;
+
 export interface NirvanaTask {
   id: string;
   type: number;

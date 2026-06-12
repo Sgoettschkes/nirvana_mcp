@@ -35,6 +35,8 @@ To remove: `claude mcp remove nirvana`.
 | `get_focus` | Tasks flagged for Focus (`seqt > 0`), excluding completed/trashed items. |
 | `list_projects` | Active projects (`type=1`, `state=11`). |
 | `get_project` | One project plus its direct children (tasks and sub-projects). Identify by `id` or `name`. |
+| `list_areas` | High-level life domains (e.g. "work", "personal"). |
+| `list_tags` | Plain tags + GTD contexts + contacts. Each entry has a `kind` field. |
 
 ## How it works
 

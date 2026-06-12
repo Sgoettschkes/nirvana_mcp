@@ -56,8 +56,8 @@ Verified live on author's machine using the public `npx -y @sgoettschkes/nirvana
 | 6 | `get_focus` | items flagged "focus" (seqt > 0), excluding inactive states | ✅ |
 | 7 | `list_projects` | type=1, state=11 (active projects) | ✅ |
 | 8 | `get_project` | project + child tasks/sub-projects by id or name | ✅ |
-| 9 | `list_areas` | all areas | |
-| 10 | `list_tags` | all tags/contexts/contacts | |
+| 9 | `list_areas` | all areas (tag type=1) | ✅ |
+| 10 | `list_tags` | tags + contexts + contacts (tag type ≠ 1); single tool with `kind` discriminator | ✅ |
 | 11 | `search_tasks` | client-side filter by text/tag/area/state | leverages cached bulk fetch |
 | 12 | `get_logbook` | completed tasks (state=7) | ✅ — returns all-time history; could grow `since` / `limit` inputs now that zod is back |
 
