@@ -1,4 +1,4 @@
-import { randomUUID } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import type {
   EverythingResponse,
   LoginResponse,
@@ -48,10 +48,11 @@ export class NirvanaClient {
       appid: appId,
       appversion: APP_VERSION,
     });
+    const passwordHash = createHash("md5").update(password).digest("hex");
     const body = new URLSearchParams({
       method: "auth.new",
       u: username,
-      p: password,
+      p: passwordHash,
       gmtoffset: (-new Date().getTimezoneOffset() / 60).toString(),
     });
     const res = await fetch(`${BASE_URL}?${params.toString()}`, {

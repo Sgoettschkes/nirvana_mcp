@@ -42,9 +42,9 @@ Verified against community client implementations: [meeech/nirv](https://github.
 
 `POST https://api.nirvanahq.com/?api=rest&...` with form-encoded body:
 ```
-method=auth.new&u={username}&p={password}&gmtoffset={hours_from_utc}
+method=auth.new&u={username}&p={md5(password)}&gmtoffset={hours_from_utc}
 ```
-Password is sent **plaintext over HTTPS** (no client-side MD5). Response:
+`p` is the **MD5 hex digest of the password**, not the plaintext. Server returns error 98 "Invalid Login Details" if plaintext is sent. Response:
 ```json
 { "results": [ { "auth": { "token": "..." } } ] }
 ```
